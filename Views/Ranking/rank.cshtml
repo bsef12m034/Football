@@ -1,0 +1,58 @@
+﻿@model MvcApplication4.Models.mama
+
+@{
+    ViewBag.Title = "rank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    <div class="col-lg-1">
+
+
+    </div>
+    <div class="col-lg-11">
+        <h1>Polling</h1>
+        <br /> <br />
+        <form method="post" action="http://poll.pollcode.com/35474583">
+            <div style="background-color:#EEEEEE;padding:2px;width:454px;font-family:Arial;font-size:small;color:#000000;">
+                <div style="padding:2px 0px 4px 2px;">
+                    <strong>Who is the best football player of all time?</strong>
+
+                </div>
+                <input type="radio" name="answer" value="1" id="answer354745831" style="float:left;" />
+                <label for="answer354745831" style="float:left;width:429px;">Zinedine Zidane</label>
+                <div style="clear:both;height:2px;">
+
+                </div>
+                <input type="radio" name="answer" value="2" id="answer354745832" style="float:left;" />
+                <label for="answer354745832" style="float:left;width:429px;">Ronaldinho Gaucho</label>
+                <div style="clear:both;height:2px;">
+
+                </div>
+                <input type="radio" name="answer" value="3" id="answer354745833" style="float:left;" />
+                <label for="answer354745833" style="float:left;width:429px;">Ronaldo Nazario</label>
+                <div style="clear:both;height:2px;">
+
+                </div>
+                <input type="radio" name="answer" value="4" id="answer354745834" style="float:left;" />
+                <label for="answer354745834" style="float:left;width:429px;">Raweem Malik :P</label>
+                <div style="clear:both;height:2px;">
+
+                </div><input type="radio" name="answer" value="5" id="answer354745835" style="float:left;" />
+                <label for="answer354745835" style="float:left;width:429px;">Moti </label>
+                <div style="clear:both;height:2px;">
+
+                </div><div  style="padding:3px;">
+                    <input type="submit" value=" Vote ">&nbsp;<input type="submit" name="view" value=" View ">
+
+                      </div>
+                
+
+            </div>
+
+        </form>
+    </div>
+
+    
+</div>

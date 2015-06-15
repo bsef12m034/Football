@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "adminSearch";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../Scripts/ajax-search-suggest.js"></script>
+	<script type="text/javascript" src="http://www.ianlunn.co.uk/demo-assets/hire-ian.js"></script> 
+	<link rel="stylesheet" type="text/css" media="screen" href="../Content/stylesSearch.css" />
+	<link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
+	<link href="http://www.ianlunn.co.uk/demo-assets/demo-style.css" rel="stylesheet" type="text/css" />
+
+
+<div>
+    <div id="search-overlay">
+	<h2>Begin typing to search</h2>
+	<div id="close">X</div>
+	<form>
+		<input id="hidden-search" type="text" autocomplete="off" /> <!--hidden input the user types into-->
+		<input id="display-search" type="text" autocomplete="off" readonly="readonly" /> <!--mirrored input that shows the actual input value-->
+	</form>
+	<div >
+		<h2 >Result</h2>
+		<ul id="list" style="color:white"></ul>
+	</div>
+
+</div>
+
+<div id="search">
+	Search
+	<img src="../images/bt-search.jpg" alt="Search" />
+</div>
+
+ 
+ <script type="text/javascript" src="http://apis.google.com/js/plusone.js">
+   {lang: 'en-GB'}
+ </script>
+</div>            

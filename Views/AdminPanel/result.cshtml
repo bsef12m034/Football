@@ -1,0 +1,101 @@
+﻿@model MvcApplication4.Models.mama
+@{
+    ViewBag.Title = "result";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<div class="row">
+    <div class="span1">
+        
+        <br />
+    </div>
+    <div class="span11">
+<h1>&nbsp &nbsp &nbsp ADD Results</h1>
+
+        <br /> <br />
+        
+        @*<form method="post" action="/AdminPanel/addResult">*@
+            @using (Html.BeginForm("../AdminPanel/addResult", "", FormMethod.Post))
+            {
+        <table>
+            <tr>
+                <td>
+                    <label style="font-size:medium">&nbsp &nbsp &nbsp Enter Team Id:</label>
+                </td>
+                <td>
+                    @*<input type="number" name="TeamId"/>*@ @Html.TextBoxFor(m=> m.Result.TeamId,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.TeamId)<br />
+                </td>
+            </tr>
+            
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Wins:<br /></label></td>
+                <td>@*<input type="number"  name="win"/>*@ @Html.TextBoxFor(m=> m.Result.win,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.win)<br /></td>
+            </tr>
+
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Loses:<br /></label></td>
+                <td>@*<input type="number" name="lose" />*@ @Html.TextBoxFor(m=> m.Result.lose,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.lose)<br /></td>
+            </tr>
+
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Ties:<br /></label></td>
+                <td>@*<input type="number" name="tie" />*@ @Html.TextBoxFor(m=> m.Result.tie,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.tie)<br /></td>
+            </tr>
+            
+            
+
+        </table>
+            
+        <br /> <br />
+        <span>&nbsp &nbsp &nbsp &nbsp &nbsp <input type="submit" value="ADD" />
+        <br /> <br /><br /> <br /> <br /> <br /></span>
+            @*</form>*@
+            }
+
+<h1>&nbsp &nbsp &nbsp Update Result</h1>
+        <br /> <br /> <br />
+        @*<form method="post" action="/AdminPanel/updateResult">*@
+         @using (Html.BeginForm("../AdminPanel/updateResult", "", FormMethod.Post))
+         {
+        <table>
+            <tr>
+                <td>
+                    <label style="font-size:medium">&nbsp &nbsp &nbsp Enter Team Id:</label>
+                </td>
+                <td>
+                    @*<input type="number" name="TeamId"/>*@ @Html.TextBoxFor(m=> m.Result.TeamId,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.TeamId)<br />
+                </td>
+            </tr>
+            
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Wins:<br /></label></td>
+                <td>@*<input type="number"  name="win"/>*@ @Html.TextBoxFor(m=> m.Result.win,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.win)<br /></td>
+            </tr>
+
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Loss:<br /></label></td>
+                <td>@*<input type="number"  name="lose"/>*@ @Html.TextBoxFor(m=> m.Result.lose,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.lose)<br /></td>
+            </tr>
+
+
+            
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp No of Ties:<br /></label></td>
+                <td>@*<input type="number" name="tie" />*@ @Html.TextBoxFor(m=> m.Result.tie,  new {   type = "number" }) @Html.ValidationMessageFor(model => model.Result.tie)<br /></td>
+            </tr>
+
+            
+
+        </table>
+       <br /> <br />
+        <span> &nbsp &nbsp &nbsp &nbsp &nbsp <input type="submit" value="Update" />
+        <br /> <br /><br /> <br /> <br /> <br /> </span>
+         }  @*</form>*@
+</div>
+
+
+
+    </div>

@@ -1,0 +1,83 @@
+﻿@model MvcApplication4.Models.mama
+@{
+    ViewBag.Title = "editNews";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<div class="row">
+    <div class="span1">
+        
+        <br />
+    </div>
+    <div class="span11">
+<h1>&nbsp &nbsp &nbsp Edit News</h1>
+
+<h3>&nbsp &nbsp &nbsp Enter Main News</h3>
+        <br /> <br /> <br />
+        @*<form method="post" action="/AdminPanel/MnewNewsEdit">*@
+        @using (Html.BeginForm("../AdminPanel/MnewNewsEdit", "", FormMethod.Post))
+        {
+        <table>
+            <tr>
+                <td>
+                    <label style="font-size:medium">&nbsp &nbsp &nbsp Enter ticker no:</label>
+                </td>
+                <td>
+                    @*<input type="number" name="tickerNo"/>*@ @Html.TextBoxFor(m => m.Mnew.tickerNo, new { type="number"}) @Html.ValidationMessageFor(model => model.Mnew.tickerNo)<br />
+                </td>
+            </tr>
+            
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Heading(Max 4-5 words):<br /></label></td>
+                <td>@*<input type="text"  name="heading"/>*@ @Html.TextBox("heading", null ,new {  type = "text"})<br /></td>
+            </tr>
+
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Enter Description(Max 2-3 lines):<br /></label></td>
+                <td>@*<input type="text" name="description" />*@ @Html.TextBox("description", null ,new {  type = "text"})<br /></td>
+            </tr>
+
+            <tr>
+
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Enter Detail:<br /></label></td>
+                <td>@*<input type="text" name="detail" />*@ @Html.TextBox("detail", null ,new {  type = "text"})<br /></td>
+            </tr>
+            
+        </table>
+       <br /> <br />
+        <span>&nbsp &nbsp <input type="submit" value="Save" /></span>
+        }  @* </form>*@
+        <br /> <br /><br /> <br /> <br /> <br />
+<h2>&nbsp &nbsp &nbsp Edit Transfer News</h2>
+
+        @*<form method="post" action="/AdminPanel/TnewNewsEdit">*@
+        @using (Html.BeginForm("../AdminPanel/TnewNewsEdit", "", FormMethod.Post))
+        {
+        <table>
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp News Id:<br /></label></td>
+                <td>@*<input type="number" name="Id" />*@ @Html.TextBoxFor(m => m.Tnew.Id, new { type="number"}) @Html.ValidationMessageFor(model => model.Tnew.Id) <br /></td>
+            </tr>
+
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Date:<br /></label></td>
+                <td>@*<input type="date" name="date" />*@ @Html.TextBox("date", null ,new {  type = "date"})<br /></td>
+            </tr>
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Enter News(Max 6-7 lines):<br /></label></td>
+                <td>@*<input type="text" name="news" />*@ @Html.TextBox("news", null ,new {  type = "text"})<br /></td>
+            </tr>
+
+            <tr>
+                <td><label style="font-size:medium">&nbsp &nbsp &nbsp Enter Detail:<br /></label></td>
+                <td>@*<input type="text" name="detail" />*@ @Html.TextBox("detail", null ,new {  type = "text"})<br /></td>
+            </tr>
+            
+        </table>
+            <br /> <br />
+        <span>&nbsp &nbsp <input type="submit" value="Save" />
+        <br /> <br /></span>
+        }  @*</form>*@
+        </div>
+
+    </div>

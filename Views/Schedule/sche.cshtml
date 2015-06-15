@@ -1,0 +1,107 @@
+﻿@model MvcApplication4.Models.mama
+
+
+@{
+    ViewBag.Title = "sche";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    int i = Model.mamaTvenue.teamList.Count;
+    bool b = false;
+    int counter= i;
+    DateTime m;
+    m = DateTime.Now;
+    Random rnd = new Random();
+
+    int venuRand = Model.mamaTvenue.venueList.Count;
+    }
+<br /><h2> SCHEDULES </h2> <br />
+
+
+<div id="registerTeam" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Login</h2>
+        <form method="post" action="/Schedule/addTeam">
+		 <h3> Name of Team:&nbsp &nbsp @*<input type="text" placeholder="Usrname" name="nameT"/>*@ @Html.TextBoxFor(p => p.team.name, new {  placeholder = "Name" , type = "text"})</h3>
+        <h3> Color of the kit:&nbsp &nbsp @*<input type="color"  name="color"/>*@ @Html.TextBoxFor(p => p.team.color, new {   type = "color"})</h3>
+        <h3> District:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp @*<input type="text" placeholder="District" name="area"/>*@ @Html.TextBoxFor(p => p.team.area, new {  placeholder = "Area" , type = "text"})</h3>
+        <h3> Age Limit:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp @*<input type="number" name="limit"/>*@ @Html.TextBoxFor(p => p.team.limit, new {   type = "number"})</h3>
+        <h3> Enter Club(if any):@*<input type="text" placeholder="Club" name="club"/>*@ @Html.TextBoxFor(p => p.team.club, new {  placeholder = "Club" , type = "text"})</h3>
+        <h3> Captain Name:&nbsp @*<input type="text" placeholder="Captain" name="cap"/>*@ @Html.TextBoxFor(p => p.team.captain, new {  placeholder = "Captain" , type = "text"})</h3>
+        <h3> Contact No:&nbsp &nbsp &nbsp &nbsp &nbsp@*<input type="tel" placeholder="Contact No" name="contact"/>*@ @Html.TextBoxFor(p => p.team.contact, new {  placeholder = "Contact No" , type = "text"})</h3>
+        <br /><br /><br />
+        <input type="submit" value="Register" style="width:10vw;height:2vw"/>
+            </form>
+
+	</div>
+</div>
+
+
+<div class="row">
+<div class="col-md-12">
+                <br />
+                <label> If you want to register your team and part of the tournament. &nbsp<a href="#registerTeam" class="btn btn-primary" role="button">
+               Click Here
+            </a></label><br /><br />
+    
+
+    
+
+                <table class="table table-striped">
+                       <tr>
+                           <th>Team Id</th>
+                           <th>First Team Name </th>
+                           <th>vs</th>
+                           <th>Second Team Id</th>
+                           <th>Second Team Name</th>
+                           <th>Venue</th>
+                           <th>Date</th>
+
+                       </tr>
+                    
+                    
+                    @if (i % 2 != 0)
+                    {
+                        i--;
+                        b = true;
+                        
+                    }
+
+                    
+
+                    @for (int j = 0; j < counter;j++ )
+                    {      
+                        
+                        
+                        if(i > j)
+                        {
+                            
+                            <tr>
+                                <td>@Model.mamaTvenue.teamList[j].Id</td>
+                                <td>@Model.mamaTvenue.teamList[j].name</td>
+                                <td>vs</td>
+                                <td>@Model.mamaTvenue.teamList[--i].Id</td>
+                                <td>@Model.mamaTvenue.teamList[i].name</td>
+                                <td>@Model.mamaTvenue.venueList[rnd.Next(0,venuRand-1)].Venue</td>
+                                <td>@m.AddDays(rnd.Next(1, 30))</td>
+                            </tr>
+                        }
+                    }
+
+
+                    
+                      
+</table>
+
+
+    @if (b == true)
+    {
+        <label style="color:red">The match timing and venue for the Team with id number</label> @Model.mamaTvenue.teamList[counter-1].Id <label style="color:red"> and team name </label> @Model.mamaTvenue.teamList[counter-1].name <label style="color:red"> will be updated soon.</label><br /> <br />        
+    }
+                
+	
+	</div>
+
+                    
+
+                </div>

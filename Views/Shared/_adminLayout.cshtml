@@ -1,0 +1,396 @@
+﻿@model MvcApplication4.Models.mama
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <link rel="shortcut icon" href="../images/Football.png" type="image/png"/>
+	<meta charset="utf-8"/>
+	<title>Admin Panel</title>
+	
+	<link rel="stylesheet" href="../Content/layout.css" type="text/css" media="screen" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script src="../Scripts/jquery-1.5.2.min.js" type="text/javascript"></script>
+	<script src="../Scripts/hideshow.js" type="text/javascript"></script>
+	<script src="../Scripts/jquery.tablesorter.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="../Scripts/jquery.equalHeight.js"></script>
+<script src="../Scripts/jquery.validate.min.js"></script>
+    <script src="../Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    
+
+	<script type="text/javascript">
+
+	    $(document).ready(function () {
+	        $(".tablesorter").tablesorter();
+	    }
+        );
+	    $(document).ready(function () {
+
+	        //When page loads...
+	        $(".tab_content").hide(); //Hide all content
+	        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+	        $(".tab_content:first").show(); //Show first tab content
+
+	        //On Click Event
+	        $("ul.tabs li").click(function () {
+
+	            $("ul.tabs li").removeClass("active"); //Remove any "active" class
+	            $(this).addClass("active"); //Add "active" class to selected tab
+	            $(".tab_content").hide(); //Hide all tab content
+
+	            var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+	            $(activeTab).fadeIn(); //Fade in the active ID content
+	            return false;
+	        });
+
+	    });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.column').equalHeight();
+        });
+
+        
+
+        $(document).ready(function () {
+            $('#Loading').hide();
+        });
+
+        function check_username() {
+
+            var username = $("#username").val();
+            if (username.length > 2) {
+                $('#Loading').show();
+                $.getJSON("/AdminPanel/CheckUsername?username=" + username, function (response) {
+                    if (response) {
+                        $('#Info').fadeOut();
+                        $('#Loading').hide();
+                        setTimeout("finishAjax('Info', '" + escape("<div id='Success'>Available</div>") + "')", 450);
+                    }
+                    else {
+                        $('#Info').fadeOut();
+                        $('#Loading').hide();
+                        setTimeout("finishAjax('Info', '" + escape("<div id='Error'>Already Taken</div>") + "')", 450);
+                    }
+                });
+
+            }
+        }
+
+        function finishAjax(id, response) {
+
+            $('#' + id).html(unescape(response));
+            $('#' + id).fadeIn(1000);
+        }
+
+        
+</script>
+      
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-64081244-1', 'auto');
+        ga('send', 'pageview');
+
+</script>
+
+  @{
+    var message = TempData["AlertMessage"] ?? string.Empty;
+}
+
+<script type="text/javascript">
+    var message = '@message';
+    if (message)
+        alert(message);
+</script>
+  
+
+    <style>
+        .field-validation-error{ color: red;text-align:right;position:absolute }
+        .input-validation-error{ background: lightpink; border: 1px solid red; }
+
+
+        #Error{
+	background-image:url(../images/no.jpg);
+	background-repeat:no-repeat;
+	background-position:left; 
+	color:#FF0000; 
+	padding-left:33px; 
+	height:19px; 
+	padding-top:6px;
+	padding-right:10px;
+	}
+#Success{
+	background-image:url(../images/yes.jpg);
+	background-repeat:no-repeat;
+	background-position:left; 
+	color:#669933; 
+	padding-left:33px; 
+	height:19px; 
+	padding-top:6px;
+	padding-right:10px;
+	}
+
+
+
+
+        .modalDialog {
+		position: fixed;
+		font-family: Arial, Helvetica, sans-serif;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: rgba(0,0,0,0.8);
+		z-index: 99999;
+		opacity:0;
+		-webkit-transition: opacity 400ms ease-in;
+		-moz-transition: opacity 400ms ease-in;
+		transition: opacity 400ms ease-in;
+		pointer-events: none;
+	}
+
+	.modalDialog:target {
+		opacity:1;
+		pointer-events:all;
+	}
+
+	.modalDialog > div {
+		width: 400px;
+		position: relative;
+		margin: 10% auto;
+		padding: 5px 20px 13px 20px;
+		border-radius: 10px;
+		background: #fff;
+		background: -moz-linear-gradient(#fff, #999);
+		background: -webkit-linear-gradient(#fff, #999);
+		background: -o-linear-gradient(#fff, #999);
+	}
+
+	.close {
+		background: #606061;
+		color: #FFFFFF;
+		line-height: 25px;
+		position: absolute;
+		right: 0px;
+		text-align: center;
+		top: 0px;
+		width: 24px;
+		text-decoration: none;
+		font-weight: bold;
+		-webkit-border-radius: 12px;
+		-moz-border-radius: 12px;
+		border-radius: 12px;
+		-moz-box-shadow: 1px 1px 3px #000;
+		-webkit-box-shadow: 1px 1px 3px #000;
+		box-shadow: 1px 1px 3px #000;
+	}
+
+	.close:hover { background: #00d9ff; }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div id="openModal" class="modalDialog">
+	<div>
+        @*<form method="post" action="/AdminPanel/signup">*@
+        @using (Html.BeginForm("../AdminPanel/signup", "", FormMethod.Post))
+        {
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Add new Admin</h2>
+        <h3> First Name:&nbsp &nbsp@*<input type="text" placeholder="First Name" name="Fname"/>*@ @Html.TextBoxFor(m => m.admin.Fname, new {  placeholder = "First Name" , type = "text"}) @Html.ValidationMessageFor(model => model.admin.Fname)</h3>
+        <h3> Last Name : &nbsp @*<input type="text" placeholder="Last Name" name="Lname" />*@ @Html.TextBoxFor(m => m.admin.Lname, new {  placeholder = "Last Name" , type = "text"}) @Html.ValidationMessageFor(model => model.admin.Lname)</h3>
+        <h3> Date of Birth:&nbsp @*<input type="date" name="DOB" />*@ @Html.TextBoxFor(m => m.admin.DOB, new {  type = "date"}) @Html.ValidationMessageFor(model => model.admin.DOB)</h3>
+        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="Gender"/>*@ @Html.TextBoxFor(m => m.admin.Gender, new {  placeholder = "Male/Female" , type = "text"}) @Html.ValidationMessageFor(model => model.admin.Gender)</h3>
+        <h3> EmailAddress:@*<input type="email" placeholder="Email" name="email"/>*@ @Html.TextBoxFor(m => m.admin.email, new {  placeholder = "abc@gmail.com" , type = "email"}) @Html.ValidationMessageFor(model => model.admin.email)</h3>
+		 <h3> Username:&nbsp &nbsp &nbsp@*<input type="text" placeholder="Usrname" name="username"/>*@ @Html.TextBoxFor(m => m.admin.username, new {  placeholder = "Username" , type = "text", id="username", name="username", onblur="return check_username();"}) </h3> <div id="Info"></div> <span id="Loading"><img src="../images/loader.gif" alt="" /></span>  <h3> @Html.ValidationMessageFor(model => model.admin.username)</h3>
+        <h3> Password: &nbsp &nbsp &nbsp@*<input type="password" placeholder="Password" name="password"/>*@ @Html.TextBoxFor(m => m.admin.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.admin.password)</h3>
+         <br /><br /><br />
+        <input type="submit" value="Create Account" style="width:10vw;height:2vw"/>
+        }
+        @*</form>*@
+	</div>
+</div>
+
+    <div id="viewAdmin" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<table border="1">
+            <tr>
+                <th style="font-size:large">Admin Id</th>
+                <th style="font-size:large">Admin Name</th>
+                <th style="font-size:large">Admin Email</th>
+                <th style="font-size:large">Admin Username</th>
+            </tr>
+            @for (int j = 0; j < @Model.mamaPro.list.Count; j++ )
+            {
+            <tr>
+                <td style="font-size:larger">@Model.mamaPro.list[j].Id</td>
+                <td style="font-size:larger">@Model.mamaPro.list[j].Fname</td>
+                <td style="font-size:larger">@Model.mamaPro.list[j].email</td>
+                <td style="font-size:larger">@Model.mamaPro.list[j].username</td>
+            </tr>
+            }
+		</table>
+
+	</div>
+</div>
+
+
+    <div id="viewProfile" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Admin Profile</h2>
+        <h3> First Name: &nbsp &nbsp<input type="text" value='@Model.mamaPro.profile.Fname' readonly="true"/></h3>
+        <h3> Last Name : &nbsp <input type="text" value='@Model.mamaPro.profile.Lname' readonly="true" /></h3>
+        <h3> Date of Birth:&nbsp<input type="text" value='@Model.mamaPro.profile.DOB' readonly="true"/></h3>
+        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp<input type="text" value='@Model.mamaPro.profile.Gender' readonly="true"/></h3>
+        <h3> EmailAddress:<input type="email" value='@Model.mamaPro.profile.email' readonly="true"/></h3>
+		 <h3> Username:&nbsp &nbsp &nbsp<input type="text" value='@Model.mamaPro.profile.username' readonly="true"/></h3>
+        <h3> Password: &nbsp &nbsp &nbsp<input type="text" value='@Model.mamaPro.profile.password' readonly="true"/></h3>
+         <br /><br /><br />
+        
+
+	</div>
+</div>
+    <form method="post" action ="/AdminPanel/deleteAdmi">
+    <div id="deleteAdmin" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+        <h2>Delete Admin</h2>
+		<br /> <br />
+        Enter UserName of the Admin to Delete: &nbsp &nbsp @Html.TextBoxFor(m => m.admin.username, new {  placeholder = "Username" , type = "text"})   @Html.ValidationMessageFor(model => model.admin.username)
+        <br /> <br /> <br />
+        <input type="submit" value="Delete" />
+	</div>
+</div>
+        </form>
+
+
+
+
+
+    <div id="chngPas" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Change Password</h2>
+        @*<form action="/AdminPanel/chng" method="post">*@
+        @using (Html.BeginForm("../AdminPanel/chng", "", FormMethod.Post))
+        {
+		 <h3> Admin Username:&nbsp &nbsp &nbsp@*<input type="text" name="username"/>*@ @Html.TextBoxFor(m => m.admin.username, new {  placeholder = "Username" , type = "text"})   @Html.ValidationMessageFor(model => model.admin.username)</h3>
+        
+        <h3> Current Password: &nbsp &nbsp @*<input type="password" name="password"/>*@ @Html.TextBoxFor(m => m.admin.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.admin.password)</h3>
+        <h3> New Password : &nbsp &nbsp &nbsp &nbsp @*<input type="password"  name="nPass"/>*@ @Html.TextBox("nPass",null ,new {  placeholder = "New Password" , type = "password"})</h3>
+        <h3> Confirm Password : &nbsp @*<input type="password"  name="conPass"/>*@ @Html.TextBox("conPass", null,new {  placeholder = "Current Password" , type = "password"})</h3>
+            <br /> <br />
+            <input type="submit" value="Change Password" />
+         <br /><br /><br />
+        
+        }  @* </form>*@
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+	<header id="header">
+		<hgroup>
+			<h1 class="site_title"><a href="../../AdminPanel/adminmain">@Model.mamaPro.profile.Fname</a></h1>
+			<h2 class="section_title"><a href="../../adminPanel/adminmain">DashBoard</a></h2> <div class="btn_view_site"><a href="../../Home/Index">View Site</a></div>
+		</hgroup>
+	</header> <!-- end of header bar -->
+	
+	<section id="secondary_bar">
+		<div class="user">
+			<p></p>
+			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
+		</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs"><a href="../../AdminPanel/adminmain">Website</a> <div class="breadcrumb_divider"></div> <a class="current" href="../../AdminPanel/dashboard">Dashboard</a> <div class="breadcrumb_divider"></div> <a class="current" href="../../AdminPanel/dashboard">Google Analytics</a></article>
+		</div>
+	</section><!-- end of secondary bar -->
+	
+	<aside id="sidebar" class="column">
+		
+ 
+
+				
+				
+		
+
+		<hr/>
+		<h3>Forms</h3>
+		<ul class="toggle">
+			<li class="icn_new_article"><a href="../../AdminPanel/news">New News</a></li>
+			<li class="icn_edit_article"><a href="../../AdminPanel/editNews">Edit News</a></li>
+            <li class="icn_edit_article"><a href="../../AdminPanel/schedule">Delete Team</a></li>
+            <li class="icn_edit_article"><a href="../../AdminPanel/result">Results</a></li>
+			
+		</ul>
+		<h3>Admins</h3>
+		<ul class="toggle">
+			<li class="icn_add_user"><a href="#openModal">Add New Admin</a></li>
+            @if (Convert.ToInt32(Session["Admin"]) == 1)
+            {
+                <li class="icn_add_user"><a href="#deleteAdmin">Delete Admin</a></li>
+            }
+			<li class="icn_view_users"><a href="#viewAdmin">View Admin</a></li>
+			<li class="icn_profile"><a href="#viewProfile">Your Profile</a></li>
+		</ul>
+		<h3>Media</h3>
+		<ul class="toggle">
+			<li class="icn_folder"><a href="../../AdminPanel/adminPhoto">Update Photo Gallery</a></li>
+			<li class="icn_photo"><a href="../../AdminPanel/adminVideo">Update Video Gallery</a></li>
+			
+		</ul>
+		<h3>Admin</h3>
+        <form action="/AdminPanel/logout" method="post">
+		<ul class="toggle">
+			<li class ="icn_security"><a href="../../AdminPanel/adminSearch">Search</a> </li>
+			<li class="icn_security"><a href="#chngPas">Change Password</a></li>
+			<li class="icn_jump_back"><input type="submit" value="logout" /></li>
+		</ul>
+		</form>
+        
+		<footer>
+			<hr />
+			<p><strong>Copyright &copy; 2015 BSEF12</strong></p>
+			
+		</footer>
+	</aside><!-- end of sidebar -->
+	
+	<section id="main" class="column">
+	@RenderBody()	
+		
+	</section>
+
+    
+
+    
+</body>
+
+</html>

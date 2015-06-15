@@ -1,0 +1,1157 @@
+﻿@model MvcApplication4.Models.mama
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="eu">
+<head>
+    
+    <link rel="shortcut icon" href="../images/Football.png" type="image/png"/>
+    <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    
+
+    <title>FootBall</title>
+
+    
+    
+    <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet"/>
+
+    <link href="@Url.Content("~/css/simple.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/css/normalize.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/css/style.css")" rel="stylesheet"/>
+
+
+    <script src="../Scripts/jquery-2.1.4.min.js"></script>
+    <script src="../Scripts/slider.js"></script>
+    <script src="../Scripts/slider12.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+    <script src="../Scripts/resul.js"></script>
+<script src="../Scripts/brackets.min.js"></script>
+
+    <script src="../Scripts/jquery.validate.min.js"></script>
+    <script src="../Scripts/jquery.validate.unobtrusive.min.js"></script>
+		
+    
+
+
+    <script>
+
+        $(document).ready(function () {
+            var pull = $('#pull');
+            menu = $('nav ul');
+            menuHeight = menu.height();
+
+            $(pull).on('click', function (e) {
+                e.preventDefault();
+                menu.slideToggle();
+            });
+
+            $(window).resize(function () {
+                var w = $(window).width();
+                if (w > 320 && menu.is(':hidden')) {
+                    menu.removeAttr('style');
+                }
+            });
+        });
+
+        jQuery.fn.liScroll = function (settings) {
+            settings = jQuery.extend({
+                travelocity: 0.03
+            }, settings);
+            return this.each(function () {
+                var $strip = jQuery(this);
+                $strip.addClass("newsticker")
+                var stripHeight = 1;
+                $strip.find("li").each(function (i) {
+                    stripHeight += jQuery(this, i).outerHeight(true);
+                });
+                var $mask = $strip.wrap("<div class='mask'></div>");
+                var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");
+                var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width 	
+                $strip.height(stripHeight);
+                var totalTravel = stripHeight;
+                var defTiming = totalTravel / (settings.travelocity);
+                function scrollnews(spazio, tempo) {
+                    $strip.animate({ top: '-=' + spazio }, tempo, "linear", function () { $strip.css("top", containerHeight); scrollnews(totalTravel, defTiming); });
+                }
+                scrollnews(totalTravel, defTiming);
+                $strip.hover(function () {
+                    jQuery(this).stop();
+                },
+				function () {
+				    var offset = jQuery(this).offset();
+				    var residualSpace = offset.top + stripHeight;
+				    var residualTime = residualSpace / settings.travelocity;
+				    scrollnews(residualSpace, residualTime);
+				});
+            });
+        };
+
+        $(document).ready(function () {
+            $("ul#ticker01").liScroll();
+        });
+
+
+        $(document).ready(function () {
+            $('.demo1').easyTicker({
+                direction: 'up'
+            });
+
+
+            $('.demo2').easyTicker({
+                direction: 'down',
+            });
+
+            $('.demo3').easyTicker({
+                visible: 1,
+                interval: 4000
+            });
+
+            $('.demo4').easyTicker({
+                direction: 'up',
+                easing: 'easeOutBounce',
+                interval: 2500
+            });
+
+            $('.demo5').easyTicker({
+                direction: 'up',
+                visible: 3,
+                easing: 'easeInBack',
+                controls: {
+                    up: '.btnUp',
+                    down: '.btnDown',
+                    toggle: '.btnToggle'
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            var moveLeft = 0;
+            var moveDown = 0;
+            $('a.popper').hover(function (e) {
+
+                var target = '#' + ($(this).attr('data-popbox'));
+
+                $(target).show();
+                moveLeft = $(this).outerWidth();
+                moveDown = ($(target).outerHeight() / 2);
+            }, function () {
+                var target = '#' + ($(this).attr('data-popbox'));
+                $(target).hide();
+            });
+
+            $('a.popper').mousemove(function (e) {
+                var target = '#' + ($(this).attr('data-popbox'));
+
+                leftD = e.pageX + parseInt(moveLeft);
+                maxRight = leftD + $(target).outerWidth();
+                windowLeft = $(window).width() - 40;
+                windowRight = 0;
+                maxLeft = e.pageX - (parseInt(moveLeft) + $(target).outerWidth() + 20);
+
+                if (maxRight > windowLeft && maxLeft > windowRight) {
+                    leftD = maxLeft;
+                }
+
+                topD = e.pageY - parseInt(moveDown);
+                maxBottom = parseInt(e.pageY + parseInt(moveDown) + 20);
+                windowBottom = parseInt(parseInt($(document).scrollTop()) + parseInt($(window).height()));
+                maxTop = topD;
+                windowTop = parseInt($(document).scrollTop());
+                if (maxBottom > windowBottom) {
+                    topD = windowBottom - $(target).outerHeight() - 20;
+                } else if (maxTop < windowTop) {
+                    topD = windowTop + 20;
+                }
+
+                $(target).css('top', topD).css('left', leftD);
+
+
+            });
+
+        });
+
+
+        $(document).ready(function () {
+            $('#Loading').hide();
+        });
+
+
+        function check_username() {
+
+            var username = $("#username").val();
+            if (username.length > 2) {
+                $('#Loading').show();
+                $.getJSON("/Home/CheckUsername?username=" + username, function (response) {
+                    if (response) {
+                        $('#Info').fadeOut();
+                        $('#Loading').hide();
+                        setTimeout("finishAjax('Info', '" + escape("<div id='Success'>Available</div>") + "')", 450);
+                    }
+                    else {
+                        $('#Info').fadeOut();
+                        $('#Loading').hide();
+                        setTimeout("finishAjax('Info', '" + escape("<div id='Error'>Already Taken</div>") + "')", 450);
+                    }
+                });
+
+            }
+        }
+
+        function finishAjax(id, response) {
+
+            $('#' + id).html(unescape(response));
+            $('#' + id).fadeIn(1000);
+        }
+
+
+    </script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-64081244-1', 'auto');
+        ga('send', 'pageview');
+
+</script>
+
+
+    @{
+    var message = TempData["AlertMessage"] ?? string.Empty;
+}
+
+<script type="text/javascript">
+    var message = '@message';
+    if (message)
+        alert(message);
+</script>
+    <style>
+
+        .field-validation-error{ color: red;text-align:right;position:absolute }
+        .input-validation-error{ background: lightpink; border: 1px solid red; }
+
+
+         #Error{
+	background-image:url(../images/no.jpg);
+	background-repeat:no-repeat;
+	background-position:left; 
+	color:#FF0000; 
+	padding-left:33px; 
+	height:19px; 
+	padding-top:6px;
+	padding-right:10px;
+	}
+#Success{
+	background-image:url(../images/yes.jpg);
+	background-repeat:no-repeat;
+	background-position:left; 
+	color:#669933; 
+	padding-left:33px; 
+	height:19px; 
+	padding-top:6px;
+	padding-right:10px;
+	}
+
+
+
+        @@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+
+        .holder { 
+  background-color:#ccc;
+  width:100%;
+  height:28vw;
+  overflow:hidden;
+  padding:10px;
+  font-family:Helvetica;
+  
+}
+.holder .mask {
+  position: relative;
+  left: 0px;
+  top: 10px;
+  width:100%;
+  height:100%;
+  overflow: hidden;
+ 
+}
+.holder ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+  position: relative;
+}
+.holder ul li {
+  padding:10px 0px;
+}
+.holder ul li a {
+  color:darkred;
+  text-decoration:none;
+}
+
+.demof{
+	border: 1px solid #ccc;
+	margin: 25px 0;
+}
+.demof ul{
+	padding: 0;
+	list-style: none;
+}
+.demof li{
+	padding: 20px;
+	border-bottom: 1px dashed #ccc;
+}
+.demof li.odd{
+	background: #fafafa;
+}
+.demof li:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.demof img{
+	float: left;
+	width: 100px;
+	margin: 5px 15px 0 0;
+}
+.demof a{
+	font-family: Arial, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: #06f;
+}
+.demof p {
+	margin: 15px 0 0;
+	font-size: 14px;
+}
+
+.demo3 {
+	font-family: Arial, sans-serif;
+	border: 1px solid #C20;
+	margin: 50px 0;
+	font-style: italic;
+	position: relative;
+	padding: 0 0 0 80px;
+	box-shadow: 0 2px 5px -3px #000;
+	border-radius: 3px;
+}
+.demo3:before {
+	content: "Latest News";
+	display: inline-block;
+	font-style: normal;
+	background: #C20;
+	padding: 10px;
+	color: #FFF;
+	font-weight: bold;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.demo3:after {
+    content: '';
+    display: block;
+    top: 0;
+    left: 80px;
+    background: linear-gradient(#FFF, rgba(255, 255, 255, 0));
+    height: 20px;
+}
+.demo3 ul li {
+	list-style: none;
+	padding: 10px 0;
+}
+
+
+.demo4{
+	border: 2px solid #06F;
+	margin-top: 10px;
+	border-radius: 5px;
+}
+
+.demo5{
+    border: 2px solid #FF3333;
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 500px;
+    -webkit-box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+}
+.demo5 ul{
+    padding: 0;
+}
+.demo5 ul li{
+    padding: 10px 10px 10px 10px;
+    border-bottom: 1px solid #FF3333;
+    border-radius: 10px;
+    list-type: none;
+    margin: 0;
+}
+.et-run{
+    background-color: #0cf;
+    color: white;
+    border: 1px solid black;
+}
+
+
+.modalDialog {
+		position: fixed;
+		font-family: Arial, Helvetica, sans-serif;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: rgba(0,0,0,0.8);
+		z-index: 99999;
+		opacity:0;
+		-webkit-transition: opacity 400ms ease-in;
+		-moz-transition: opacity 400ms ease-in;
+		transition: opacity 400ms ease-in;
+		pointer-events: none;
+	}
+
+	.modalDialog:target {
+		opacity:1;
+		pointer-events:all;
+	}
+
+	.modalDialog > div {
+		width: 400px;
+		position: relative;
+		margin: 10% auto;
+		padding: 5px 20px 13px 20px;
+		border-radius: 10px;
+		background: #fff;
+		background: -moz-linear-gradient(#fff, #999);
+		background: -webkit-linear-gradient(#fff, #999);
+		background: -o-linear-gradient(#fff, #999);
+	}
+
+	.close {
+		background: #606061;
+		color: #FFFFFF;
+		line-height: 25px;
+		position: absolute;
+		right: 0px;
+		text-align: center;
+		top: 0px;
+		width: 24px;
+		text-decoration: none;
+		font-weight: bold;
+		-webkit-border-radius: 12px;
+		-moz-border-radius: 12px;
+		border-radius: 12px;
+		-moz-box-shadow: 1px 1px 3px #000;
+		-webkit-box-shadow: 1px 1px 3px #000;
+		box-shadow: 1px 1px 3px #000;
+	}
+
+	.close:hover { background: #00d9ff; }
+
+    
+
+
+    .popbox {
+    display: none;
+    position: absolute;
+    z-index: 99999;
+    width: 400px;
+    padding: 10px;
+    background: #EEEFEB;
+    color: #000000;
+    border: 1px solid #4D4F53;
+    margin: 0px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
+    box-shadow: 0px 0px 5px 0px rgba(164, 164, 164, 1);
+}
+.popbox h2
+{
+    background-color: #4D4F53;
+    color:  #E3E5DD;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    margin: -10px 0px 8px -10px;
+    padding: 5px 10px;
+}
+
+
+.metroBtn {
+				background-color: #2E7BCC;
+				color: #fff;
+				font-size: 1.1em;
+				padding: 10px;
+				display: inline-block;
+				margin-bottom: 30px;
+				cursor: pointer;
+			}
+			.brackets > div {
+				vertical-align: top;
+				clear: both;
+			}
+			.brackets > div > div {
+				float: left;
+				height: 100%;
+			}
+			.brackets > div > div > div {
+				margin: 50px 0;
+			}
+			.brackets div.bracketbox {
+				position: relative;
+				width: 100%; height: 100%;
+				border-top: 1px solid #555;
+				border-right: 1px solid #555;
+				border-bottom: 1px solid #555;
+			}
+			.brackets div.bracketbox > span.info {
+				position: absolute;
+				top: 25%;
+				left: 25%;
+				font-size: 0.8em;
+				color: #BBB;
+			}
+			.brackets div.bracketbox > span {
+				position: absolute;
+				left: 5px;
+				font-size: 0.85em;
+			}
+			.brackets div.bracketbox > span.teama {
+				top: -20px;
+			}
+			.brackets div.bracketbox > span.teamb {
+				bottom: -20px;
+			}
+			.brackets div.bracketbox > span.teamc {
+				bottom: 1px;
+			}
+			.brackets > .group2 {
+				height: 260px;
+			}
+			.brackets > .group2 > div {
+				width: 49%;
+			}
+			.brackets > .group3 {
+				height: 320px;
+			}
+			.brackets > .group3 > div {
+				width: 32.7%;
+			}
+			.brackets > .group4 > div {
+				width: 24.5%;
+			}
+			.brackets > .group5 > div {
+				width: 19.6%;
+			}
+			.brackets > .group6 {
+				height: 2000px;
+			}
+			.brackets > .group6 > div {
+				width: 16.3%;
+			}
+			.brackets > div > .r1 > div {
+				height: 60px;
+			}
+			.brackets > div > .r2 > div {
+				margin: 80px 0 110px 0;
+				height: 110px;
+			}
+			.brackets > div > .r3 > div {
+				margin: 135px 0 220px 0;
+				height: 220px;
+			}
+			.brackets > div > .r4 > div {
+				margin: 250px 0 445px 0;
+				height: 445px;
+			}
+			.brackets > div > .r5 > div {
+				margin: 460px 0 0 0;
+				height: 900px;
+			}
+			.brackets > div > .r6 > div {
+				margin: 900px 0 0 0;
+			}
+			.brackets div.final > div.bracketbox {
+				border-top: 0px;
+				border-right: 0px;
+				height: 0px;
+			}
+			.brackets > div > .r4 > div.drop {
+				height: 180px;
+				margin-bottom: 0px;
+			}
+			.brackets > div > .r5 > div.final.drop {
+				margin-top: 345px;
+				margin-bottom: 0px;
+				height: 1px;
+			}
+			.brackets > div > div > div:last-of-type {
+				margin-bottom: 0px;
+			}
+
+
+    </style>
+
+    </head>
+
+
+
+    <body>
+
+            <div class="container-fluid">
+
+                <div id="openModal" class="modalDialog">
+	<div>
+		<form action="/Home/signIn" method="post">
+		<a href="#close" title="Close" class="close">X</a>
+		
+            
+            <h2>Login/Signup</h2>
+        <br />
+         <a class="btn btn-primary" role="button" href="#signup">Signup</a>
+            
+		 <h3> Username:@*<input type="text" placeholder="Usrname" name="userNa"/>*@ @Html.TextBoxFor(m => m.user.username, new {  placeholder = "Username" , type = "text"}) @Html.ValidationMessageFor(model => model.user.username)</h3>
+        <h3> Password:@*<input type="password" placeholder="Password" name="passW"/>*@ @Html.TextBoxFor(m => m.user.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.user.password)</h3>
+            
+        <input type="checkbox" name="f" value="5"  style="width:1.2vw;height:1.2vw" />Forgot Your Password? Write anything in password field and check this box. <br /><br /><br />
+        <input type="submit" value="Login" style="width:10vw;height:2vw" onclick=""/>
+            </form>
+
+	</div>
+</div>
+
+
+                 <form method="post" action="/Home/addUser">
+                <div id="signup" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Signup</h2>
+        <h3> First Name:&nbsp &nbsp@*<input type="text" placeholder="First Name" name="fname" />*@ @Html.TextBoxFor(m => m.user.Fname, new {  placeholder = "First Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Fname)</h3>
+        <h3> Last Name : &nbsp @*<input type="text" placeholder="Last Name" name="lname"/>*@ @Html.TextBoxFor(m => m.user.Lname, new {  placeholder = "Last Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Lname)</h3>
+        <h3> Date of Birth:&nbsp@*<input type="date" name="dob"/>*@ @Html.TextBoxFor(m => m.user.DOB, new {    type="date"}) @Html.ValidationMessageFor(model => model.user.DOB)</h3>
+        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="gen"/>*@ @Html.TextBoxFor(m => m.user.gender, new {  placeholder = "Male/Female" , type = "text"}) @Html.ValidationMessageFor(model => model.user.gender)</h3>
+        <h3> EmailAddress:@*<input type="email" placeholder="Email" name="email"/>*@ @Html.TextBoxFor(m => m.user.email, new {  placeholder = "example@gmail.com" , type = "text"}) @Html.ValidationMessageFor(model => model.user.email)</h3>
+		 <h3> Username:&nbsp &nbsp &nbsp @*<input type="text" placeholder="Usrname" name="username" />*@ @Html.TextBoxFor(m => m.user.username, new {  placeholder = "Username" , type = "text",id="username", name="username", onblur="return check_username();"})</h3> <div id="Info"></div> <span id="Loading"><img src="../images/loader.gif" alt="" /></span> <h3>@Html.ValidationMessageFor(model => model.user.username)</h3>
+        <h3> Password: &nbsp &nbsp &nbsp@*<input type="password" placeholder="Password" name="pass"/>*@ @Html.TextBoxFor(m => m.user.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.user.password)</h3>
+         <br /><br /><br />
+        <input type="submit" value="Create Account" style="width:10vw;height:2vw"/>
+
+	</div>
+</div>
+                    </form>
+
+                <div id="adminlogin" class="modalDialog">
+	<div>
+		<form method="post" action="/AdminPanel/signin">
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Login</h2>
+		  <h3> Username:@*<input type="text" placeholder="Usrname" name="userN"/>*@ @Html.TextBoxFor(m => m.admin.username, new {  placeholder = "Username" , type = "text"}) @Html.ValidationMessageFor(model => model.admin.username)</h3>
+        <h3> Password:@*<input type="password" placeholder="Password" name="passW"/>*@ @Html.TextBoxFor(m => m.admin.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.admin.password)</h3>
+        <input type="checkbox" name="a" value="4" style="width:1.2vw;height:1.2vw" />Forgot Your Password? <br /><br /><br />
+        <input type="submit" value="Login" style="width:10vw;height:2vw"/>
+
+		</form>
+
+	</div>
+</div>
+
+
+
+
+<div id="news1" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		 <h3>@Model.mamaNews.mNew[0].heading</h3><p>@Model.mamaNews.mNew[0].Description
+             </p>
+
+	</div>
+</div>
+
+                <div id="news2" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		 <h3>@Model.mamaNews.mNew[1].heading</h3><p>@Model.mamaNews.mNew[1].Description</p>
+	</div>
+</div>
+
+                <div id="news3" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		 <h3>@Model.mamaNews.mNew[2].heading</h3><p>@Model.mamaNews.mNew[2].Description</p>
+	</div>
+</div>
+
+                <div id="news4" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		<h3>@Model.mamaNews.mNew[3].heading</h3><p>@Model.mamaNews.mNew[3].Description</p>
+
+	</div>
+</div>
+
+                <div id="news5" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		<h3>@Model.mamaNews.mNew[4].heading</h3><p>@Model.mamaNews.mNew[4].Description</p>
+	</div>
+</div>
+
+                <div id="news6" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>News and Events</h2>
+		 <h3>@Model.mamaNews.mNew[5].heading</h3><p>@Model.mamaNews.mNew[5].Description</p>
+	</div>
+</div>
+
+
+<div id="0" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[0].detail</p>
+</div>
+
+                <div id="1" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[1].detail</p>
+</div>
+
+                <div id="2" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[2].detail</p>
+</div>
+
+                <div id="3" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[3].detail</p>
+</div>
+
+                <div id="4" class="popbox">
+    <h2>News</h2>
+    <p> @Model.mamaNews.tNew[4].detail</p>
+</div>
+
+                <div id="5" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[5].detail</p>
+</div>
+
+                <div id="6" class="popbox">
+    <h2>News</h2>
+    <p> @Model.mamaNews.tNew[6].detail</p>
+</div>
+
+                <div id="7" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[7].detail</p>
+</div>
+
+                <div id="8" class="popbox">
+    <h2>News</h2>
+    <p>@Model.mamaNews.tNew[8].detail</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+                <div class="row" style="background-image:url('../images/header.jpg');background-repeat:no-repeat;background-size:100% auto">
+                    <div class="span12" >
+    <header class="masthead" >
+    
+    
+      
+        <h1><a href="#" style="text-decoration:none"><label style="color:black;margin-top:1vw;margin-left:25vw"><br /> </label></a></h1>
+</header>
+</div>
+    </div>
+<div class="row" >
+    <div class="span12">    
+        <nav class="clearfix">
+		<ul class="clearfix" id="tabs">
+            @if(Session["Id"] == null)
+            {
+			<li><a href="#openModal"> Login/Signup </a></li>
+            }
+			<li class="active"><a href="../../Home/Index"> News </a></li>
+			<li><a href="../../Photo/photo">Photo Gallery</a></li>
+			<li><a href="../../Video/mera">Video Gallery</a></li>
+			<li><a href="../../Community/com">Community</a></li>
+			<li><a href="../../Schedule/sche">Schedules</a></li>
+             @if(Session["Id"] == null)
+            {
+                if (Session["Admin"] != null)
+                {
+                    <li><a href="../../AdminPanel/adminmain">Admin Panel</a></li>
+                }
+                else
+                {
+                    <li><a href="#adminlogin">Admin Panel</a></li>
+                }
+                
+            }
+
+             @if(Session["Id"] != null)
+              {
+              <li><a href="../../Home/logout">Logout</a></li>
+              }
+				
+		</ul>
+		<a href="#" id="pull">Menu</a>
+	</nav>
+                
+        </div>
+
+
+    </div>
+
+                
+
+  
+
+
+                
+                <div class="row" >
+
+            <div class="col-md-2">
+               <br />
+                <div class="container-fluid">
+<div class="row">
+  <div class="col-sm-12">
+  
+    <div class="sidebar-nav">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="visible-xs navbar-brand">Sidemenu</span>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../../Home/Index">Home</a></li>
+            <li><a href="../../Ranking/rank">Ranking</a></li>
+            <li><a href="../../Result/resu">Result <span class="badge">@Model.mamaNews.resultBatch</span></a></li>
+            <li><a href="../../Schedule/sche">Schedules <span class="badge">@Model.mamaNews.scheduleBatch</span></a></li>
+            <li><a href="../../Photo/photo">Photo Gallery</a></li>
+              <li><a href="../../Video/mera">Video Gallery</a></li>
+              <li><a href="../Community/com">Community</a></li>
+              
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+        
+    
+  
+  
+            </div>
+      </div>
+    
+        </div>
+                    </div>
+
+        </div>
+
+
+            <div class="col-md-10">
+                
+	
+	@RenderBody()
+                
+	
+	</div>
+
+                </div>
+        
+</div>
+                <div class="row">
+
+                    <div class="col-md-3" >
+
+                        <div class="holder">
+  <ul id="ticker01">
+                            <li><h2>TRANSFER NEWS</h2></li>
+							@for (int i = 0; i < Model.mamaNews.tNew.Count; i++)
+      {
+          
+							<li><span id="popup8">@Model.mamaNews.tNew[i].date<a class="popper" data-popbox="@i" href="#">@Model.mamaNews.tNew[i].news</a></span></li>
+      }
+							
+				</ul>
+</div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="thumbnail">
+          <h2>La'Decima Moment</h2>
+         <img src="../images/s1.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          
+         <h3>La'Decima crazy Moments</h3>
+         
+         <p>
+            <a href="photo.html" class="btn btn-primary" role="button">
+               View
+            </a> 
+            <a href="com.html" class="btn btn-default" role="button">
+               Share with Community
+            </a>
+         </p>
+      </div>
+
+  </div>
+
+                    <div class="col-md-3">
+                        <div class="thumbnail">
+          <h2>Register your Team</h2>
+         <img src="../images/s2.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+         <h3>For coming Tournament</h3>
+         
+         <p>
+            <a href="sche.html" class="btn btn-primary" role="button">
+               Register
+            </a> 
+            
+         </p>
+      </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <div class="thumbnail">
+          <h2>Ramos's Header</h2>
+         <img src="../images/s3.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+         <h3>Goal of the week</h3>
+         
+         <p>
+            <a href="vid.html" class="btn btn-primary" role="button">
+               Watch
+            </a> 
+            
+         </p>
+      </div>
+
+  </div>
+                    </div>
+                    <div class="row" style="background-image:url('../images/heading-cnt.png');background-repeat:no-repeat;background-size:100% 100%">
+                        <div class="col-md-3">
+                
+            </div>
+            <div class="col-md-9">
+                
+                <label style="color:white;font-family:'Times New Roman';font-size:31px;padding:3px 0 0 0">Video Gallery</label>
+                
+            </div>
+
+                        </div>
+                <div class="row">
+
+                    <div class="col-md-3" style="background-image:url('../images/main-bg.gif');background-repeat:no-repeat;background-position-x:right;background-position-y:bottom;background-size:auto 100%"><h3><label style="color:blue">  About FootBall</label></h3>
+                <p>Football refers to a number of sports that involve, to varying degrees, kicking a ball with the foot to score a goal. Unqualified, the word football is understood to refer to whichever form of football is the most popular in the regional context in which the word appears: association football (also known as soccer) in the United Kingdom and most of the non-English speaking world; gridiron football.</p></div>
+
+                    <div class="row">
+                    <div class="col-md-2">
+                        <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s1.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          04:30 sec<br />
+         <a href="vid.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+         
+      </div>
+                    </div>
+                    <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s2.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          02:30 sec<br />
+        <a href="vid1.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+                    <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s3.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          06:30 sec<br />
+         <a href="vid2.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+
+                <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s6.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          01:30 sec<br />
+         <a href="vid3.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+                        </div>
+
+
+                </div>
+
+                <div class="row">
+                <div class="col-md-3" style="background-image:url('../images/main-bg.gif');background-repeat:no-repeat;background-position-x:right;background-position-y:bottom;background-size:auto 100%"><h3><label style="color:blue">About Website</label></h3>
+                <p>Goal is a football website, with 32 country editions and over 530 reporters in 50+ countries (ComScore).[2] Goal provides users with news, live scores, match previews, and editorials.</p></div>
+            <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s4.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          04:00 sec<br />
+         <a href="vid4.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+         
+      </div>
+
+  </div>
+
+                <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s7.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          02:18 sec<br />
+         <a href="vid5.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+
+                <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s1.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          10:22 sec<br />
+         <a href="vid6.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+
+                <div class="col-md-2">
+                
+                <div class="thumbnail" >
+          <h4></h4>
+         <img src="../images/s3.jpg" 
+         alt="Generic placeholder thumbnail"/>
+      </div>
+      <div class="caption">
+          08:55 sec<br />
+         <a href="vid7.html" class="btn btn-primary" role="button">
+               Watch
+            </a>
+         
+      </div>
+
+  </div>
+		</div>
+
+
+                
+
+
+
+@RenderSection("Scripts",false)       
+        
+
+
+
+    </body>   
+        
+    </html>

@@ -1,0 +1,95 @@
+﻿@model MvcApplication4.Models.mama
+
+@{
+    ViewBag.Title = "photo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <title>gallery</title>
+    <script type="text/javascript" src="../Scripts/jquery.video-ui.js"></script>
+    <link rel="stylesheet" href="../Content/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../Content/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" href="../Content/main.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Yesteryear' rel='stylesheet' type='text/css'/>
+        <script src="../Scripts/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+
+
+
+</head>
+
+<div class="row">
+    <div class="col-lg-12">
+        <br /> <br /> <br />
+
+        <div class="container gallery">
+            <h2 class="page-title">Photo Gallery</h2>
+
+
+            @for (int g = 0; g < Model.photoList.Count; g+=4 )
+            {
+        <div class="row">
+           <ul class="thumbnails">
+                
+                <li class="span3">
+                        <a class="thumbnail" rel="lightbox[group]" href='@Model.photoList[g].path'><img class="group1" src= '@Model.photoList[g].path' title="Image Title" /></a>
+                    </li> <!--end thumb -->
+                    <li class="span3">
+                        <a class="thumbnail" rel="lightbox[group]" href='@Model.photoList[g+1].path'><img class="group1" src='@Model.photoList[g+1].path' title="Image Title" /></a>
+                    </li> <!--end thumb -->
+                    <li class="span3">
+                        <a class="thumbnail" rel="lightbox[group]" href='@Model.photoList[g+2].path'><img class="group1" src='@Model.photoList[g+2].path' title="Image Title" /></a>
+                    </li> <!--end thumb -->
+                    <li class="span3">
+                        <a class="thumbnail" rel="lightbox[group]" href='@Model.photoList[g+3].path'><img class="group1" src='@Model.photoList[g+3].path' title="Image Title" /></a>
+                    </li>
+                </ul>
+            </div>
+            }
+             
+
+       
+
+
+
+            <footer>
+                <p>&copy; Real Madrid <span class="pull-right credits"><a href="../../Home/Index">Home</a><a href="../../p\Photo/photo" >Refresh</a><a href="../../Community/com">Community</a></span></p>
+            </footer>
+
+        </div> <!-- /container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../Scripts/jquery-1.9.1.min.js"><\/script>')</script>
+
+        <script src="../Scripts/bootstrap.min.js"></script>
+
+        <script src="../Scripts/plugins.js"></script>
+        <script src="../Scripts/jquery.prettyPhoto.js"></script>
+        <script src="../Scripts/main.js"></script>
+
+        <script>
+            var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+            (function (d, t) {
+                var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+                g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+                s.parentNode.insertBefore(g, s)
+            }(document, 'script'));
+
+            // Colorbox Call
+
+            $(document).ready(function () {
+                $("[rel^='lightbox']").prettyPhoto();
+            });
+        </script>
+   
+                
+                </div>
+	
+	</div>
+
+    
+
+
+
+

@@ -1,0 +1,42 @@
+﻿@model MvcApplication4.Models.mama
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="demo1 demof" style="background-color:white; opacity:0.9">
+		<ul>
+			<li><img src= '@Model.mamaNews.mNew[0].imgPath' alt="Sample image" /><a href="#news1">@Model.mamaNews.mNew[0].heading</a><p>@Model.mamaNews.mNew[0].Description</p></li>
+			
+			<li class="odd"><img src='@Model.mamaNews.mNew[1].imgPath' alt="Sample image" /><a href="#news2">@Model.mamaNews.mNew[1].heading</a><p>@Model.mamaNews.mNew[1].Description</p></li>
+			
+			<li><img src='@Model.mamaNews.mNew[2].imgPath' alt="Sample image" /><a href="#news3">@Model.mamaNews.mNew[2].heading</a><p>@Model.mamaNews.mNew[2].Description</p></li>
+
+            
+            			
+		</ul>
+	</div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="demo2 demof" style="background-color:white;opacity:0.9">
+		<ul>
+			<li><img src='@Model.mamaNews.mNew[3].imgPath' alt="Sample image" /><a href="#news4">@Model.mamaNews.mNew[3].heading</a><p>@Model.mamaNews.mNew[3].Description</p></li>
+			
+			<li class="odd"><img src='@Model.mamaNews.mNew[4].imgPath' alt="Sample image" /><a href="#news5"> @Model.mamaNews.mNew[4].heading </a><p> @Model.mamaNews.mNew[4].Description </p></li>
+			
+			<li><img src='@Model.mamaNews.mNew[5].imgPath' alt="Sample image" /><a href="#news6">@Model.mamaNews.mNew[5].heading</a><p>@Model.mamaNews.mNew[5].Description</p></li>
+			
+		</ul>
+	</div>
+    </div>
+</div>
+
+
+
+
+
+                   

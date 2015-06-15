@@ -1,0 +1,124 @@
+﻿@model MvcApplication4.Models.mama
+@{
+    ViewBag.Title = "adminmain";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<article class="module width_full">
+			<header><h3>Stats</h3></header>
+			<div class="module_content">
+				<article class="stats_graph">
+					
+                    <img src="http://chart.apis.google.com/chart?chxr=0,0,3000&chxt=y&chs=520x140&cht=lc&chco=76A4FB,80C65A&chd=s:Tdjpsvyvttmiihgmnrst,OTbdcfhhggcTUTTUadfk&chls=2|2&chma=40,20,20,30" width="520" height="140" alt="" />
+
+				</article>
+				
+				<article class="stats_overview">
+					<div class="overview_today">
+						<p class="overview_day">Traffic</p>
+						<p class="overview_count"> 5678 </p>
+						<p class="overview_type">Hits</p>
+						<p class="overview_count">2,103</p>
+						<p class="overview_type">Views</p>
+					</div>
+					<div class="overview_previous">
+						<p class="overview_day">Yesterday</p>
+						<p class="overview_count">1,646</p>
+						<p class="overview_type">Hits</p>
+						<p class="overview_count">2,054</p>
+						<p class="overview_type">Views</p>
+					</div>
+
+
+                    
+
+				</article>
+				<div class="clear"></div>
+			</div>
+		</article><!-- end of stats article -->
+		
+		<article class="module width_3_quarter">
+		<header><h3 class="tabs_involved">Users List</h3>
+		<ul class="tabs">
+   			<li><a href="#tab1">List</a></li>
+    		<li><a href="#tab2">Options</a></li>
+		</ul>
+		</header>
+
+		<div class="tab_container">
+			<div id="tab1" class="tab_content">
+			<table class="tablesorter" cellspacing="0"> 
+			<thead> 
+				<tr> 
+   					
+    				<th>User Id</th> 
+    				<th>User Name</th> 
+    				<th>Gender </th> 
+    				<th>User Email</th>
+                    <th>UserName</th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+                @for(int j =0; j < Model.UserListForAdmin.Count; j++)
+                {
+				<tr> 
+   					<td>@Model.UserListForAdmin[j].Id</td> 
+    				<td>@Model.UserListForAdmin[j].Fname &nbsp @Model.UserListForAdmin[j].Lname</td> 
+    				<td>@Model.UserListForAdmin[j].gender</td> 
+    				<td>@Model.UserListForAdmin[j].email</td> 
+    				<td>@Model.UserListForAdmin[j].username</td> 
+				</tr> 
+                }
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			<div id="tab2" class="tab_content">
+                <form action="/AdminPanel/deleteUser" method ="post">
+			<table class="tablesorter" > 
+			<thead> 
+				<tr> 
+   					<th></th> 
+    				<th>User Id</th>
+                    <th>User Email</th> 
+    				<th>UserName</th> 
+    				<th>Status</th> 
+    				<th>Actions</th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+                
+                @for(int j =0; j < Model.UserListForAdmin.Count; j++)
+                {
+				<tr> 
+   					<td><input type="checkbox" name="c" id="@Model.UserListForAdmin[j].Id" value="@Model.UserListForAdmin[j].Id"></td> 
+    				<td>@Model.UserListForAdmin[j].Id</td> 
+    				<td>@Model.UserListForAdmin[j].email</td> 
+    				<td>@Model.UserListForAdmin[j].username</td>
+                    <td>@Model.UserListForAdmin[j].status</td> 
+    				<td> <input type="image" src="../images/icn_trash.png" title="Delete"/> </td> 
+				</tr>
+                } 
+				 
+			</tbody> 
+			</table>
+                    </form>
+                <br /> <br />
+			</div>
+            <br />
+            </div>
+            <p>The data is in sorted form...</p>
+            </article>
+

@@ -1,0 +1,74 @@
+﻿@model MvcApplication4.Models.mama
+@{
+    ViewBag.Title = "adminPhoto";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<script>
+    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+    function ValidateSingleInput(oInput) {
+        var FileSize = oInput.files[0].size;
+        var FileSizeMB = (FileSize / 1048576).toFixed(2);
+        if (oInput.type == "file") {
+            var sFileName = oInput.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+
+                if (!blnValid ||(FileSizeMB > 3)) {
+                    alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", ") + "You image size is " + FileSizeMB +" Mb and limit is 3 Mb..");
+                    oInput.value = "";
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+</script>    
+<div class="row">
+    <div class="span1">
+        
+        <br />
+    </div>
+    <div class="span11">
+<h1>&nbsp &nbsp &nbsp ADD Picture to the Photo Gallery</h1>
+
+        <br /> <br />
+        <form method="post" enctype="multipart/form-data" action="/AdminPanel/adminPhoto1" >
+        <table>
+            
+            <tr>
+                
+        <td><label style="font-size:medium">&nbsp &nbsp &nbsp Enter Position(1-24):<br /></label></td>
+         <td>@Html.TextBoxFor(m => m.Photo.Id, new {   type = "number" }) @Html.ValidationMessageFor(model => model.Photo.Id)</td>
+                </tr>
+
+            </table>
+
+        <br />
+        <br />
+
+        <table>
+            <tr>
+        <td><label style="font-size:medium">&nbsp &nbsp &nbsp Select Picture:<br /></label></td>
+
+         <td>@Html.TextBoxFor(m => m.Photo.path, new { type = "file" , name= "file1", onchange="ValidateSingleInput(this);"}) @Html.ValidationMessageFor(model => model.Photo.path)<br /></td>
+             
+                   </tr>
+            <tr>
+                <td><input type="submit" value="Upload"/></td>
+            </tr>
+                
+
+            </table>
+            </form>
+        </div>
+
+    </div>
+
