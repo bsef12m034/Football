@@ -2,7 +2,9 @@
 @{
     Layout = "~/Views/Shared/_adminLayout.cshtml";
     ViewBag.Title = "dashboard";
-    int gt = Model.mamaPro.list.Count - Model.gend;
+    int gt = Model.UserListForAdmin.Count - Model.gend;
+    int tot = Model.UserListForAdmin.Count;
+    int inac = Model.UserListForAdmin.Count - Model.active;
 }
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -96,7 +98,7 @@ $(function () {
             tickLength: 10,
             tickColor: '#666',
             title: {
-                text: 'Powered by<br/>Highcharts',
+                text: 'Football',
                 style: {
                     color: '#BBB',
                     fontWeight: 'normal',
@@ -120,7 +122,7 @@ $(function () {
                 dial: {
                     radius: '60%',
                     baseWidth: 4,
-                    baseLength: '95%',
+                    baseLength: '100%',
                     rearLength: 0
                 }
             }, {
@@ -207,7 +209,7 @@ ${demo.css}
 		                }
 		            },
 		            title: {
-		                text: 'Contents of Admins'
+		                text: 'Contents of User'
 		            },
 		            subtitle: {
 		                text: 'Summary'
@@ -219,11 +221,14 @@ ${demo.css}
 		                }
 		            },
 		            series: [{
-		                name: 'Delivered amount',
+		                name: 'No of Users',
 		                data: [
                             
-                            ['FemaleAdmins',  @gt],
-                            ['Male Admins', @Model.gend],
+                            ['Female Users',  @gt],
+                            ['Male Users', @Model.gend],
+                            ['Active Users', @Model.active],
+                            ['Inactive Users', @inac],
+                            ['Total Users', @tot]
                             
 		                ]
 		            }]
@@ -265,7 +270,7 @@ ${demo.css}
 		                text: 'Active Users on Website'
 		            },
 		            subtitle: {
-		                text: 'Total Users vs Active Users'
+		                text: 'Total Users | Active Users | Inactive Users | Male Users | Female Users'
 		            },
 		            plotOptions: {
 		                column: {
@@ -273,7 +278,7 @@ ${demo.css}
 		                }
 		            },
 		            series: [{
-		                data: [@Model.UserListForAdmin.Count, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+		                data: [@Model.UserListForAdmin.Count,@Model.active, @inac, @Model.gend, @gt]
 		            }]
 		        });
 

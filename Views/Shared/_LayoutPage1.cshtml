@@ -734,7 +734,7 @@ video {
     <div class="span12">    
         <nav class="clearfix">
 		<ul class="clearfix" id="tabs">
-            @if(Session["Id"] == null)
+            @if(Session["Id"] == null && Session["Admin"] == null)
             {
 			<li><a href="#openModal"> Login/Signup </a></li>
             }
