@@ -1,7 +1,7 @@
 ﻿@model MvcApplication4.Models.mama
 
 @{
-    
+    string[] t ={"Male", "Female"}; 
 }
 
 <!DOCTYPE html>
@@ -578,7 +578,7 @@ video {
         <h3> First Name:&nbsp &nbsp@*<input type="text" placeholder="First Name" name="fname" />*@ @Html.TextBoxFor(m => m.user.Fname, new {  placeholder = "First Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Fname)</h3>
         <h3> Last Name : &nbsp @*<input type="text" placeholder="Last Name" name="lname"/>*@ @Html.TextBoxFor(m => m.user.Lname, new {  placeholder = "Last Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Lname)</h3>
         <h3> Date of Birth:&nbsp@*<input type="date" name="dob"/>*@ @Html.TextBoxFor(m => m.user.DOB, new {    type="date"}) @Html.ValidationMessageFor(model => model.user.DOB)</h3>
-        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="gen"/>*@ @Html.TextBoxFor(m => m.user.gender, new {  placeholder = "Male/Female" , type = "text"}) @Html.ValidationMessageFor(model => model.user.gender)</h3>
+        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="gen"/>*@ @Html.TextBoxFor(m => m.user.gender, new {  placeholder = "Male/Female" , type = "text"})  @Html.ValidationMessageFor(model => model.user.gender)</h3>
         <h3> EmailAddress:@*<input type="email" placeholder="Email" name="email"/>*@ @Html.TextBoxFor(m => m.user.email, new {  placeholder = "example@gmail.com" , type = "text"}) @Html.ValidationMessageFor(model => model.user.email)</h3>
 		 <h3> Username:&nbsp &nbsp &nbsp @*<input type="text" placeholder="Usrname" name="username" />*@ @Html.TextBoxFor(m => m.user.username, new {  placeholder = "Username" , type = "text",id="username", name="username", onblur="return check_username();"})</h3> <div id="Info"></div> <span id="Loading"><img src="../images/loader.gif" alt="" /></span> <h3>@Html.ValidationMessageFor(model => model.user.username)</h3>
         <h3> Password: &nbsp &nbsp &nbsp@*<input type="password" placeholder="Password" name="pass"/>*@ @Html.TextBoxFor(m => m.user.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.user.password)</h3>
