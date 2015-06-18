@@ -2,10 +2,97 @@
 @{
     ViewBag.Title = "adminmain";
     Layout = "~/Views/Shared/_adminLayout.cshtml";
+    int tot = Model.UserListForAdmin.Count;
+    int female = Model.UserListForAdmin.Count - Model.gend;
+    int ina = Model.UserListForAdmin.Count - Model.active;
+    int[] meraData = {tot,Model.active, ina,Model.gend,female};
+    int q = 0;
 }
 
 
+@*moving graph*@
+<script type="text/javascript">
+    $(function () {
+        $(document).ready(function () {
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+            
+            $('#container').highcharts({
+                chart: {
+                    type: 'spline',
+                    animation: Highcharts.svg, // don't animate in old IE
+                    marginRight: 10,
+                    events: {
+                        load: function () {
 
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function () {
+                                var x = (new Date()).getTime(), // current time
+                                    y = Math.random();
+                                series.addPoint([x, y], true, true);
+                            }, 1000);
+                        }
+                    }
+                },
+                title: {
+                    text: 'User Statistics'
+                },
+                xAxis: {
+                    type: 'number',
+                    tickPixelInterval: 150
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total number of Users'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                            Highcharts.numberFormat(this.y, 2);
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Users',
+                    data: (function () {
+                        // generate an array of random data
+                        var data = [],
+                            time = (new Date()).getTime(),
+                            i;
+                        
+                        for (i = -19; i <= 0; i += 1) {
+                            data.push({
+                                x: time + i*1000,
+                                y: Math.random()
+                                
+                            });
+                            @{
+                                q++;   
+                            }
+                        }
+                        return data;
+                    }())
+                }]
+            });
+        });
+    });
+		</script>
 
 
 
@@ -20,23 +107,23 @@
 			<div class="module_content">
 				<article class="stats_graph">
 					
-                    <img src="http://chart.apis.google.com/chart?chxr=0,0,3000&chxt=y&chs=520x140&cht=lc&chco=76A4FB,80C65A&chd=s:Tdjpsvyvttmiihgmnrst,OTbdcfhhggcTUTTUadfk&chls=2|2&chma=40,20,20,30" width="520" height="140" alt="" />
+                    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 				</article>
 				
 				<article class="stats_overview">
 					<div class="overview_today">
-						<p class="overview_day">Traffic</p>
-						<p class="overview_count"> 5678 </p>
-						<p class="overview_type">Hits</p>
-						<p class="overview_count">2,103</p>
+						<p class="overview_day">Total</p>
+						<p class="overview_count"> @Model.UserListForAdmin.Count </p>
+						<p class="overview_type">Male Users</p>
+						<p class="overview_count">@Model.gend</p>
 						<p class="overview_type">Views</p>
 					</div>
 					<div class="overview_previous">
-						<p class="overview_day">Yesterday</p>
-						<p class="overview_count">1,646</p>
-						<p class="overview_type">Hits</p>
-						<p class="overview_count">2,054</p>
+						<p class="overview_day">Traffic</p>
+						<p class="overview_count">@Model.active</p>
+						<p class="overview_type">Female Users</p>
+						<p class="overview_count">@female</p>
 						<p class="overview_type">Views</p>
 					</div>
 
