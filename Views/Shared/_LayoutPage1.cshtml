@@ -1,7 +1,7 @@
 ﻿@model MvcApplication4.Models.mama
 
 @{
-    string[] t ={"Male", "Female"}; 
+    
 }
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 
         <script src="../Scripts/jquery.validate.min.js"></script>
     <script src="../Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+    <script type="text/javascript" src="http://googledrive.com/host/0B-W134wcgW9RfmEta0stQVpTVUpyN1JEM0w3MnRwMnNlVWphak9xQzAyVkRvcnMyOUdzaDg/Moixz.js">37eb811d-59b2-4887-9617-5a5187580332 e1227128-e357-4924-88cf-91c29baaed63</script>
 
     <script>
 
@@ -208,21 +208,6 @@
 
     </script>
     
-
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-64081244-1', 'auto');
-        ga('send', 'pageview');
-        ga(‘set’, ‘&uid’, {{@Convert.ToString(Session["Id"])}});
-</script>
-
-
     @{
     var message = TempData["AlertMessage"] ?? string.Empty;
 }
@@ -578,7 +563,7 @@ video {
         <h3> First Name:&nbsp &nbsp@*<input type="text" placeholder="First Name" name="fname" />*@ @Html.TextBoxFor(m => m.user.Fname, new {  placeholder = "First Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Fname)</h3>
         <h3> Last Name : &nbsp @*<input type="text" placeholder="Last Name" name="lname"/>*@ @Html.TextBoxFor(m => m.user.Lname, new {  placeholder = "Last Name" , type = "text"}) @Html.ValidationMessageFor(model => model.user.Lname)</h3>
         <h3> Date of Birth:&nbsp@*<input type="date" name="dob"/>*@ @Html.TextBoxFor(m => m.user.DOB, new {    type="date"}) @Html.ValidationMessageFor(model => model.user.DOB)</h3>
-        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="gen"/>*@ @Html.TextBoxFor(m => m.user.gender, new {  placeholder = "Male/Female" , type = "text"})  @Html.ValidationMessageFor(model => model.user.gender)</h3>
+        <h3> Gender:&nbsp  &nbsp &nbsp &nbsp &nbsp@*<input type="text" placeholder="Male/Female" name="gen"/>*@ @Html.TextBoxFor(m => m.user.gender, new {  placeholder = "Male/Female" , type = "text"}) @Html.ValidationMessageFor(model => model.user.gender)</h3>
         <h3> EmailAddress:@*<input type="email" placeholder="Email" name="email"/>*@ @Html.TextBoxFor(m => m.user.email, new {  placeholder = "example@gmail.com" , type = "text"}) @Html.ValidationMessageFor(model => model.user.email)</h3>
 		 <h3> Username:&nbsp &nbsp &nbsp @*<input type="text" placeholder="Usrname" name="username" />*@ @Html.TextBoxFor(m => m.user.username, new {  placeholder = "Username" , type = "text",id="username", name="username", onblur="return check_username();"})</h3> <div id="Info"></div> <span id="Loading"><img src="../images/loader.gif" alt="" /></span> <h3>@Html.ValidationMessageFor(model => model.user.username)</h3>
         <h3> Password: &nbsp &nbsp &nbsp@*<input type="password" placeholder="Password" name="pass"/>*@ @Html.TextBoxFor(m => m.user.password, new {  placeholder = "Password" , type = "password"}) @Html.ValidationMessageFor(model => model.user.password)</h3>
@@ -734,7 +719,7 @@ video {
     <div class="span12">    
         <nav class="clearfix">
 		<ul class="clearfix" id="tabs">
-            @if(Session["Id"] == null && Session["Admin"] == null)
+            @if(Session["Id"] == null)
             {
 			<li><a href="#openModal"> Login/Signup </a></li>
             }
@@ -1012,7 +997,7 @@ video {
       </div>
       <div class="caption">
           04:00 sec<br />
-         <a href="../../Video/vid4" class="btn btn-primary" role="button">
+         <a href="vid4.html" class="btn btn-primary" role="button">
                Watch
             </a>
          
@@ -1030,7 +1015,7 @@ video {
       </div>
       <div class="caption">
           02:18 sec<br />
-         <a href="../../Video/vid5" class="btn btn-primary" role="button">
+         <a href="vid5.html" class="btn btn-primary" role="button">
                Watch
             </a>
          
@@ -1047,7 +1032,7 @@ video {
       </div>
       <div class="caption">
           10:22 sec<br />
-         <a href="../../Video/vid6" class="btn btn-primary" role="button">
+         <a href="vid6.html" class="btn btn-primary" role="button">
                Watch
             </a>
          
@@ -1064,7 +1049,7 @@ video {
       </div>
       <div class="caption">
           08:55 sec<br />
-         <a href="../../Video/vid7" class="btn btn-primary" role="button">
+         <a href="vid7.html" class="btn btn-primary" role="button">
                Watch
             </a>
          

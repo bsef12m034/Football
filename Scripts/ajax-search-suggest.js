@@ -53,87 +53,45 @@ $(document).ready(function(){ //when the browser has rendered the page...
 	
 	function updateResults(latestQuery){
 	    if (latestQuery.length > 0) {
-	        $.getJSON("/adminPanel/searchResult?latestQuery=" + latestQuery, function (data) {//if there is a query to process...
-	            //..send that query to the php script "auto-suggest.php" via ajax
-
-	            if (data.length > 0) { //if the php script returns a result...
-	                //turn the string from the PHP script into a JavaScript object
-	                //remove the "No results" text if it's being displayed
-	                //show the results container
-
-
-
-	                //keepTerms = new Array();
-
-
-	                if (data == "") {
-	                    var items = document.getElementById("list");
-	                    var item = document.createElement("li");
-
-
-
-	                    item.innerHTML = "No Record Found...";
-	                    items.appendChild(item);
-	                }
-	                else {
-
-	                    var items = document.getElementById("list");
-	                    for (var i = 0; i < data.length; i++) { //for each term in the displayed list...
-	                        if (latestQuery == "ADMIN") {
-
-	                            var item = document.createElement("li");
-	                            item.innerHTML = data[i].Id + "  " + data[i].username + "   (" + data[i].email + ")";
-	                            items.appendChild(item);
-
-	                        }
-
-	                        if (latestQuery == "TEAM") {
-
-	                            var item = document.createElement("li");
-	                            item.innerHTML = data[i].Id + "  " + data[i].name + "   (" + data[i].club + ")";
-	                            items.appendChild(item);
-
-	                        }
-
-	                        if (latestQuery == "USER") {
-
-	                            var item = document.createElement("li");
-	                            item.innerHTML = data[i].Id + "  " + data[i].username + "   (" + data[i].email + ")";
-	                            items.appendChild(item);
-
-	                        }
-
-	                        if (latestQuery == "RESULT") {
-	                            var item = document.createElement("li");
-	                            item.innerHTML = "Id Win Lose Points";
-	                            items.appendChild(item);
-	                        }
-
-	                        if (latestQuery == "RESULT") {
-
-	                            var item = document.createElement("li");
-	                            item.innerHTML = data[i].TeamId + "  " + data[i].win + "   " + data[i].lose + " " + data[i].points;
-	                            items.appendChild(item);
-
-	                        }
-
-	                        
-
-	                    }
-	                }
-
-	            }
-	        });
-	    } else {
-	        if (data == "") {
-	            var items = document.getElementById("list");
-	            var item = document.createElement("li");
-
-
-
-	            item.innerHTML = "No Record Found...";
-	            items.appendChild(item);
-	        }
-
-	    }	    }
-	});
+	        $.getJSON("/adminPanel/searchResult?latestQuery=" + latestQuery, function (data){//if there is a query to process...
+			 //..send that query to the php script "auto-suggest.php" via ajax
+				
+			    if(data.length > 0){ //if the php script returns a result...
+			    	data = $.parseJSON(data); //turn the string from the PHP script into a JavaScript object
+					$("#artists li").remove(":contains('No results')"); //remove the "No results" text if it's being displayed
+					$("#results").show(); //show the results container
+					
+					previousTerms = new Array(); //set up an array that will hold the terms currently being displayed
+					$("#artists li").each(function(){ //for each result currently being displayed...
+						previousTerms.push($(this).text()); //add it to the previousTerms array
+					});
+										
+					keepTerms = new Array();
+										
+					for(term in data){ //for each matched term in the returned data...
+						url = data[term]; //get the url for the matched term;
+						if($.inArray(term, previousTerms) === -1){ //if this term isn't in the previous list of terms (and isn't already being displayed)...
+							$artistsList.prepend('<li><a href="'+url+'" title="'+term+'">'+term+'</a></li>');
+						}else{ //if it is in the previous list...
+							keepTerms.push(term); //add the term we want to keep to an array
+						}				
+					}
+															
+					if(data == "" || (keepTerms.length == 0 && (previousTerms.length != 0 || $displaySearch.val() == ""))){
+						$artistsList.html("<li>No results</li>");
+					}else{						
+						for(term in previousTerms){ //for each term in the displayed list...
+							if($.inArray(previousTerms[term], keepTerms) === -1){
+								$("#artists li").filter(function(){
+									return $(this).text() == previousTerms[term]
+								}).remove();
+							}
+						}
+					}
+			    }
+			});
+		}else{
+			$artistsList.html("<li>No results</li>");
+		}
+	}
+});

@@ -1,10 +1,6 @@
-﻿@model MvcApplication4.Models.mama
-@{
+﻿@{
     Layout = "~/Views/Shared/_adminLayout.cshtml";
     ViewBag.Title = "dashboard";
-    int gt = Model.UserListForAdmin.Count - Model.gend;
-    int tot = Model.UserListForAdmin.Count;
-    int inac = Model.UserListForAdmin.Count - Model.active;
 }
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -98,7 +94,7 @@ $(function () {
             tickLength: 10,
             tickColor: '#666',
             title: {
-                text: 'Football',
+                text: 'Powered by<br/>Highcharts',
                 style: {
                     color: '#BBB',
                     fontWeight: 'normal',
@@ -122,7 +118,7 @@ $(function () {
                 dial: {
                     radius: '60%',
                     baseWidth: 4,
-                    baseLength: '100%',
+                    baseLength: '95%',
                     rearLength: 0
                 }
             }, {
@@ -209,10 +205,10 @@ ${demo.css}
 		                }
 		            },
 		            title: {
-		                text: 'Contents of User'
+		                text: 'Contents of Highsoft\'s weekly fruit delivery'
 		            },
 		            subtitle: {
-		                text: 'Summary'
+		                text: '3D donut in Highcharts'
 		            },
 		            plotOptions: {
 		                pie: {
@@ -221,15 +217,17 @@ ${demo.css}
 		                }
 		            },
 		            series: [{
-		                name: 'No of Users',
+		                name: 'Delivered amount',
 		                data: [
-                            
-                            ['Female Users',  @gt],
-                            ['Male Users', @Model.gend],
-                            ['Active Users', @Model.active],
-                            ['Inactive Users', @inac],
-                            ['Total Users', @tot]
-                            
+                            ['Bananas', 8],
+                            ['Kiwi', 3],
+                            ['Mixed nuts', 1],
+                            ['Oranges', 6],
+                            ['Apples', 8],
+                            ['Pears', 4],
+                            ['Clementines', 4],
+                            ['Reddish (bag)', 1],
+                            ['Grapes (bunch)', 1]
 		                ]
 		            }]
 		        });
@@ -267,10 +265,10 @@ ${demo.css}
 		                }
 		            },
 		            title: {
-		                text: 'Active Users on Website'
+		                text: 'Chart rotation demo'
 		            },
 		            subtitle: {
-		                text: 'Total Users | Active Users | Inactive Users | Male Users | Female Users'
+		                text: 'Test options by dragging the sliders below'
 		            },
 		            plotOptions: {
 		                column: {
@@ -278,7 +276,7 @@ ${demo.css}
 		                }
 		            },
 		            series: [{
-		                data: [@Model.UserListForAdmin.Count,@Model.active, @inac, @Model.gend, @gt]
+		                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
 		            }]
 		        });
 
@@ -289,7 +287,7 @@ ${demo.css}
 
 		        // Activate the sliders
 		        $('#R0').on('change', function () {
-		            chart.options.chart.options3d.alpha = this.value ;
+		            chart.options.chart.options3d.alpha = this.value;
 		            showValues();
 		            chart.redraw(false);
 		        });
