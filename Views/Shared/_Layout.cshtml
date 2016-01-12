@@ -10,20 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <script>
-	window.onload = 	FB.getLoginStatus(function(response) {
-	alert(response.status);
-  if (response.status === 'connected') {
-    
-    var uid = response.authResponse.userID;
-    var accessToken = response.authResponse.accessToken;
-	alert("abc");
-	alert(accessToken);
-  } else if (response.status === 'not_authorized') {
-    
-  } else {
-    
-  }
- });
+	window.onload = 	function(){ alert ("abcdef");}
 	
 	
 	
