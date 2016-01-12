@@ -9,7 +9,25 @@
     <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+    <script>
+	window.onload = 	FB.getLoginStatus(function(response) {
+	alert(response.status);
+  if (response.status === 'connected') {
     
+    var uid = response.authResponse.userID;
+    var accessToken = response.authResponse.accessToken;
+	alert("abc");
+	alert(accessToken);
+  } else if (response.status === 'not_authorized') {
+    
+  } else {
+    
+  }
+ });
+	
+	
+	
+	</script>
 
     <title>FootBall</title>
 
@@ -53,8 +71,7 @@
                     menu.removeAttr('style');
                 }
             });
-        });
-
+        });
 
         jQuery.fn.liScroll = function (settings) {
             settings = jQuery.extend({
@@ -604,34 +621,6 @@
 
 
     <body>
-    
-    <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1715776771978802',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1715776771978802";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 
 	
 	
@@ -666,24 +655,7 @@
 /*like button*/
 <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 	
-	<script>
-	FB.getLoginStatus(function(response) {
-  if (response.status === 'connected') {
-    
-    var uid = response.authResponse.userID;
-    var accessToken = response.authResponse.accessToken;
-	alert("abc");
-	alert(accessToken);
-  } else if (response.status === 'not_authorized') {
-    
-  } else {
-    
-  }
- });
 	
-	
-	
-	</script>
 	
             <div class="container-fluid">
 
@@ -898,8 +870,7 @@
 				
 		</ul>
 		<a href="#" id="pull">Menu</a>
-	</nav>
-
+	</nav>
                 
         </div>
 
