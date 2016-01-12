@@ -635,7 +635,56 @@
 
 	
 	
+	<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1715776771978802',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
 
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+/*like script*/
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1715776771978802";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+/*like button*/
+<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+	
+	<script>
+	FB.getLoginStatus(function(response) {
+  if (response.status === 'connected') {
+    
+    var uid = response.authResponse.userID;
+    var accessToken = response.authResponse.accessToken;
+	alert("abc");
+	alert(accessToken);
+  } else if (response.status === 'not_authorized') {
+    
+  } else {
+    
+  }
+ });
+	
+	
+	
+	</script>
+	
             <div class="container-fluid">
 
                 <div id="openModal" class="modalDialog">
